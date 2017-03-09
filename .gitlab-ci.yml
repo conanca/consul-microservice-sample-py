@@ -1,4 +1,9 @@
-image: docker:latest
+image: docker:1.12.6
+variables:
+  DOCKER_DRIVER: overlay
+
+services:
+- docker:dind
 
 variables:
   SERVICE_NAME: "microservice-sample"
@@ -9,6 +14,7 @@ variables:
   IMAGE_NAME: "$PRIVATE_REGISTRY/$IMAGE_LIBRARY/$SERVICE_NAME"
 
 before_script:
+ - docker info
  - docker login -u PRIVATE_REGISTRY_USER -p $PRIVATE_REGISTRY_PASSWORD $PRIVATE_REGISTRY
 
 stages:
