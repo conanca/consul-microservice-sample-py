@@ -1,0 +1,34 @@
+image: docker:latest
+
+variables:
+  SERVICE_NAME: "microservice-sample"
+  PRIVATE_REGISTRY: "reg.news.cn"
+  PRIVATE_REGISTRY_USER: "ci-runner"
+  PRIVATE_REGISTRY_PASSWORD: "X1nh74*()"
+  IMAGE_LIBRARY: "data-group"
+  IMAGE_NAME: "$PRIVATE_REGISTRY/$IMAGE_LIBRARY/$SERVICE_NAME"
+
+before_script:
+ - docker login -u PRIVATE_REGISTRY_USER -p $PRIVATE_REGISTRY_PASSWORD $PRIVATE_REGISTRY
+
+stages:
+  - build
+  - push
+
+build_image:
+  stage: build
+  script:
+    - docker build -t "$IMAGE_NAME:${CI_BUILD_REF:0:8}" .
+    - docker tag "$IMAGE_NAME:${CI_BUILD_REF:0:8}" "$IMAGE_NAME:latest"
+  only:
+    - master
+
+push_image:
+  stage: push
+  script:
+    - docker push "$IMAGE_NAME:${CI_BUILD_REF:0:8}"
+    - docker push "$IMAGE_NAME:latest"
+    - docker rmi "$IMAGE_NAME:${CI_BUILD_REF:0:8}"
+    - docker rmi "$IMAGE_NAME:latest"
+  only:
+    - master
