@@ -3,7 +3,7 @@ variables:
   DOCKER_DRIVER: overlay
 
 services:
-- docker:dind
+- docker:1.12.6
 
 variables:
   SERVICE_NAME: "microservice-sample"
