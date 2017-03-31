@@ -1,4 +1,3 @@
 redis
 flask
 netifaces
-socket
