@@ -6,6 +6,7 @@ variables:
   PRIVATE_REGISTRY_USER: "ci-runner"
   IMAGE_LIBRARY: "data-group"
   IMAGE_NAME: "$PRIVATE_REGISTRY/$IMAGE_LIBRARY/$SERVICE_NAME"
+  SWARM_MANAGER: "192.168.85.102:2375"
 
 before_script:
   - docker info
@@ -13,6 +14,7 @@ before_script:
 stages:
   - build
   - push
+  - deploy
 
 build_image:
   stage: build
@@ -28,5 +30,14 @@ push_image:
     - docker login $PRIVATE_REGISTRY -u$PRIVATE_REGISTRY_USER -p$PRIVATE_REGISTRY_PASSWORD
     - docker push "$IMAGE_NAME:${CI_BUILD_REF:0:8}"
     - docker push "$IMAGE_NAME:latest"
+  only:
+    - master
+
+deploy-service:
+  stage: deploy
+  script:
+    - docker login $PRIVATE_REGISTRY -u$PRIVATE_REGISTRY_USER -p$PRIVATE_REGISTRY_PASSWORD
+    - docker -H $SWARM_MANAGER service rm microservice-py
+    - docker -H $SWARM_MANAGER service create --with-registry-auth  --name microservice-py reg.news.cn/data-group/microservice-sample:${CI_BUILD_REF:0:8}
   only:
     - master
