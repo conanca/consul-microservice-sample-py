@@ -2,7 +2,7 @@ FROM reg.news.cn/library/xh-baseimage-python:2.7
 
 COPY requirements.txt ./
 
-RUN apk --update add --virtual build-dependencies libffi-dev openssl-dev py-pip build-base linux-headers \
+RUN apk --update add --virtual build-dependencies libffi-dev build-base linux-headers \
   && pip install --upgrade pip \
   && pip install -r requirements.txt \
   && apk del build-dependencies
