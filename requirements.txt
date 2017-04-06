@@ -1,4 +1,4 @@
 redis
 flask
 netifaces
-consul
+python-consul
