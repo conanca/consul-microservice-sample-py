@@ -10,5 +10,5 @@ docker run -d -p 8300:8300 -p 8400:8400 -p 8500:8500 -p 8600:8600 -e 'CONSUL_LOC
 
 #### swarm mode 运行
 ```
-docker -H 192.168.85.102:2375 service create --with-registry-auth  --name microservice-py reg.news.cn/data-group/microservice-sample:latest
+docker -H 192.168.85.102:2375 service create --with-registry-auth  --name microservice-py reg.dolplay.com/data-group/microservice-sample:latest
 ```

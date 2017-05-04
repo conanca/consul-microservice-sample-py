@@ -2,7 +2,7 @@ image: docker:latest
 
 variables:
   SERVICE_NAME: "microservice-sample"
-  PRIVATE_REGISTRY: "reg.news.cn"
+  PRIVATE_REGISTRY: "reg.dolplay.com"
   PRIVATE_REGISTRY_USER: "ci-runner"
   IMAGE_LIBRARY: "data-group"
   IMAGE_NAME: "$PRIVATE_REGISTRY/$IMAGE_LIBRARY/$SERVICE_NAME"
@@ -38,6 +38,6 @@ deploy-service:
   script:
     - docker login $PRIVATE_REGISTRY -u$PRIVATE_REGISTRY_USER -p$PRIVATE_REGISTRY_PASSWORD
     - docker -H $SWARM_MANAGER service rm microservice-py
-    - docker -H $SWARM_MANAGER service create --with-registry-auth  --name microservice-py reg.news.cn/data-group/microservice-sample:${CI_BUILD_REF:0:8}
+    - docker -H $SWARM_MANAGER service create --with-registry-auth  --name microservice-py reg.dolplay.com/data-group/microservice-sample:${CI_BUILD_REF:0:8}
   only:
     - master

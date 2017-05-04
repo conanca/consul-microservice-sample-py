@@ -1,4 +1,4 @@
-FROM reg.news.cn/library/xh-baseimage-python:2.7
+FROM reg.dolplay.com/library/xh-baseimage-python:2.7
 
 COPY requirements.txt ./
 
